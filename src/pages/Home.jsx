@@ -11,15 +11,16 @@ export default function Home() {
   const { data: tasks } = useCollection("tasks");
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-50 to-slate-200">
-      <aside className="w-full md:w-1/4 bg-white shadow-md flex flex-col items-center p-6 border-b md:border-r">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-gray-100">
+      {/* Sidebar */}
+      <aside className="w-full md:w-1/4 bg-slate-800 border-b md:border-r border-slate-700 shadow-md flex flex-col items-center p-6">
         <div className="flex flex-col items-center space-y-3">
           <img
             src={user.photoURL}
             alt="avatar"
-            className="w-20 h-20 rounded-full shadow-md"
+            className="w-20 h-20 rounded-full shadow-md border-2 border-slate-700"
           />
-          <h2 className="text-xl font-semibold text-slate-800">
+          <h2 className="text-xl font-semibold text-white">
             {user.displayName}
           </h2>
         </div>
@@ -53,29 +54,31 @@ export default function Home() {
         {error && toast.error(error)}
       </aside>
 
+      {/* Main */}
       <main className="flex-1 p-6 space-y-8 overflow-y-auto">
+        {/* Users */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Users</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Users</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {users &&
               users.map((u) => (
                 <div
                   key={u.uid}
-                  className="p-4 bg-white rounded-2xl shadow hover:shadow-lg transition"
+                  className="p-4 bg-slate-800 border border-slate-700 rounded-2xl shadow hover:shadow-lg transition"
                 >
                   <div className="flex items-center gap-3">
                     <img
                       src={u.photoURL}
                       alt={u.displayName}
-                      className="w-12 h-12 rounded-full shadow"
+                      className="w-12 h-12 rounded-full shadow border border-slate-600"
                     />
                     <div>
-                      <h4 className="text-lg font-medium text-slate-700">
+                      <h4 className="text-lg font-medium text-gray-100">
                         {u.displayName}
                       </h4>
                       <p
                         className={`mt-1 text-sm font-semibold ${
-                          u.online ? "text-green-600" : "text-gray-500"
+                          u.online ? "text-green-500" : "text-gray-400"
                         }`}
                       >
                         {u.online ? "Online" : "Offline"}
@@ -87,21 +90,22 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Tasks */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Tasks</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Tasks</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {tasks &&
               tasks.map((task) => (
                 <div
                   key={task.uid}
-                  className="p-4 bg-white rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between"
+                  className="p-4 bg-slate-800 border border-slate-700 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between"
                 >
                   <Link to={`/task/${task.uid}`}>
-                    <h5 className="text-lg font-semibold text-slate-700">
+                    <h5 className="text-lg font-semibold text-gray-100">
                       {task.title}
                     </h5>
                     {task.dueTo && (
-                      <p className="text-sm text-slate-500 mt-2">
+                      <p className="text-sm text-gray-400 mt-2">
                         Due: {task.dueTo}
                       </p>
                     )}
@@ -112,11 +116,11 @@ export default function Home() {
                             key={u.uid}
                             src={u.photoURL}
                             alt={u.label}
-                            className="w-8 h-8 rounded-full border-2 border-white shadow"
+                            className="w-8 h-8 rounded-full border-2 border-slate-800 shadow"
                           />
                         ))}
                         {task.attachedUsers.length > 3 && (
-                          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-xs text-slate-600 border border-white">
+                          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 text-xs text-gray-200 border border-slate-800">
                             +{task.attachedUsers.length - 3}
                           </span>
                         )}
