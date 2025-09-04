@@ -13,8 +13,8 @@ export default function Task() {
 
   if (!data) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span className="loading loading-spinner loading-lg text-indigo-600"></span>
+      <div className="flex items-center justify-center min-h-screen bg-slate-900">
+        <span className="loading loading-spinner loading-lg text-indigo-400"></span>
       </div>
     );
   }
@@ -48,21 +48,23 @@ export default function Task() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-slate-50 to-slate-200">
-      <header className="bg-white shadow p-4 flex items-center justify-between">
-        <h1 className="text-xl sm:text-2xl font-semibold text-slate-800">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-gray-100">
+      {/* Header */}
+      <header className="bg-slate-800 border-b border-slate-700 shadow p-4 flex items-center justify-between">
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">
           Task: {data.title}
         </h1>
         {data.dueTo && (
-          <p className="text-sm text-slate-600">
-            Due: <span className="font-medium">{data.dueTo}</span>
+          <p className="text-sm text-gray-400">
+            Due: <span className="font-medium text-gray-200">{data.dueTo}</span>
           </p>
         )}
       </header>
 
+      {/* Comments */}
       <main className="flex-1 overflow-y-auto p-4 space-y-4">
         {data.comments.length === 0 ? (
-          <p className="text-center text-slate-500">No comments yet</p>
+          <p className="text-center text-gray-400">No comments yet</p>
         ) : (
           data.comments.map((comment) => (
             <div
@@ -72,18 +74,18 @@ export default function Task() {
               }`}
             >
               <div className="chat-image avatar">
-                <div className="w-10 h-10 rounded-full">
+                <div className="w-10 h-10 rounded-full border border-slate-600">
                   <img src={comment.photoURL} alt="avatar" />
                 </div>
               </div>
-              <div className="chat-header">
+              <div className="chat-header text-gray-300">
                 {comment.displayName}
               </div>
               <div
                 className={`chat-bubble ${
                   comment.uid === user.uid
-                    ? "chat-bubble-primary"
-                    : "chat-bubble-secondary"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-slate-700 text-gray-100"
                 }`}
               >
                 {comment.text}
@@ -93,19 +95,20 @@ export default function Task() {
         )}
       </main>
 
+      {/* Input */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 flex items-center gap-2 border-t"
+        className="bg-slate-800 border-t border-slate-700 p-4 flex items-center gap-2"
       >
         <input
           type="text"
           name="comment"
           placeholder="Type a message..."
-          className="input input-bordered flex-1 rounded-full"
+          className="input input-bordered flex-1 rounded-full bg-slate-900 border-slate-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
         />
         <button
           type="submit"
-          className="btn btn-primary rounded-full px-6"
+          className="btn bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6"
           disabled={loading}
         >
           {loading ? (
