@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { formError } from "../components/ErrorId";
 import { toast } from "sonner";
 import { useResetPassword } from "../hooks/useResetPassword";
+import { useGoogle } from "../hooks/useGoogle";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -18,6 +19,8 @@ export default function Login() {
   const [error, setError] = useState(null);
   const { _login, error: _error, isPending } = useLogin();
   const { resetPassword } = useResetPassword();
+    const {error: errorGoogle, googleProvider, isPending:isPendingGoogle} = useGoogle()
+   console.log(errorGoogle);
 
   useEffect(() => {
     if (user?.email && user?.password) {
@@ -61,9 +64,24 @@ export default function Login() {
             <button className="bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg py-2 text-lg font-semibold shadow-md">
               Log in
             </button>
+             {!isPendingGoogle && (
+            <button onClick={() => googleProvider()} type="button" className="bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg py-2 text-lg font-semibold shadow-md">
+              LogIn with Google
+            </button>
+          )}
+          {isPendingGoogle && (
+            <button
+              className="btn btn-block transition-colors rounded-lg py-2 text-lg font-semibold shadow-md"
+              disabled="disabled"
+            >
+              Loading...
+            </button>
+          )}
           </Form>
         )}
-        {forgetPassword && (
+       
+        <div>
+          {forgetPassword && (
           <Form method="post" className="flex flex-col gap-4">
             <FormInput type="email" label="Email" name="emailRecovery" />
             <button className="bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg py-2 text-lg font-semibold shadow-md">
@@ -74,6 +92,7 @@ export default function Login() {
 
         {!forgetPassword && <button onClick={() => setForgetPassword(!forgetPassword)} className="btn btn-neutral mt-[20px]">Forget Password</button>}
         {forgetPassword && <button onClick={() => setForgetPassword(!forgetPassword)} className="btn btn-neutral mt-[20px]">Show Login</button>}
+        </div>
       </div>
     </div>
   );

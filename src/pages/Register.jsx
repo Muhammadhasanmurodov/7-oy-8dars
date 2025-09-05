@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { formError } from "../components/ErrorId";
 import { useRegister } from "../hooks/useRegister";
 import { toast } from "sonner";
+import { useGoogle } from "../hooks/useGoogle";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -15,7 +16,9 @@ export default function Register() {
   const user = useActionData();
   const [error, setError] = useState(null);
   const { register, isPending, error: _error } = useRegister();
-
+  const {error: errorGoogle, googleProvider, isPending:isPendingGoogle} = useGoogle()
+ console.log(errorGoogle);
+ 
   useEffect(() => {
     if (user?.name && user?.email && user?.password) {
       register(user);
@@ -56,6 +59,19 @@ export default function Register() {
             </button>
           )}
           {isPending && (
+            <button
+              className="btn btn-block transition-colors rounded-lg py-2 text-lg font-semibold shadow-md"
+              disabled="disabled"
+            >
+              Loading...
+            </button>
+          )}
+          {!isPendingGoogle && (
+            <button onClick={() => googleProvider()} type="button" className="bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg py-2 text-lg font-semibold shadow-md">
+              Register with Google
+            </button>
+          )}
+          {isPendingGoogle && (
             <button
               className="btn btn-block transition-colors rounded-lg py-2 text-lg font-semibold shadow-md"
               disabled="disabled"
