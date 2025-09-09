@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { toast } from "sonner";
 import { useCollection } from "../hooks/useCollection";
 import Select, { components } from "react-select";
 
 export default function CreateTask() {
-  const { data } = useCollection("users");
+  const { data } = useCollection("users", false); 
   const [userOptions, setUserOptions] = useState([]);
   const [attachedUsers, setAttachedUsers] = useState([]);
   const navigate = useNavigate();
@@ -77,6 +77,7 @@ export default function CreateTask() {
       attachedUsers,
       dueTo,
       comments: [],
+      timestamp: serverTimestamp()
     };
 
     try {
@@ -153,18 +154,18 @@ export default function CreateTask() {
             styles={{
               control: (base) => ({
                 ...base,
-                backgroundColor: "#0f172a", // slate-900
-                borderColor: "#334155", // slate-700
+                backgroundColor: "#0f172a", 
+                borderColor: "#334155", 
                 color: "white",
               }),
               menu: (base) => ({
                 ...base,
-                backgroundColor: "#1e293b", // slate-800
+                backgroundColor: "#1e293b", 
                 color: "white",
               }),
               multiValue: (base) => ({
                 ...base,
-                backgroundColor: "#334155", // slate-700
+                backgroundColor: "#334155", 
               }),
               input: (base) => ({
                 ...base,

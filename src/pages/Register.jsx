@@ -17,7 +17,6 @@ export default function Register() {
   const [error, setError] = useState(null);
   const { register, isPending, error: _error } = useRegister();
   const {error: errorGoogle, googleProvider, isPending:isPendingGoogle} = useGoogle()
- console.log(errorGoogle);
  
   useEffect(() => {
     if (user?.name && user?.email && user?.password) {

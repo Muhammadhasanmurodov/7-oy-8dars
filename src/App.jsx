@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { isAuthReady, login } from "./app/features/userSlice";
 import CreateTask from "./pages/CreateTask";
 import Task from "./pages/Task";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const { user, authReady } = useSelector((store) => store.userList);
@@ -36,13 +37,17 @@ export default function App() {
           element: <Home />,
         },
         {
-          path:'/createTask',
-          element:<CreateTask/>
+          path: "/createTask",
+          element: <CreateTask />,
         },
         {
-          path:`/task/:id`,
-          element:<Task/>,
-        }
+          path: "/profile",
+          element: <Profile />,
+        },
+        {
+          path: `/task/:id`,
+          element: <Task />,
+        },
       ],
     },
     {
@@ -62,7 +67,7 @@ export default function App() {
       if (user?.displayName) {
         dispatch(login(user));
       }
-        dispatch(isAuthReady());
+      dispatch(isAuthReady());
     });
   }, []);
 

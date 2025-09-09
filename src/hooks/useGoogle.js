@@ -29,7 +29,6 @@ export const useGoogle = () => {
         uid: req.user.uid,
       });
       dispatch(login(req.user));
-      console.log(req.user);
     } catch (error) {
       setError(firebaseErrorMessage(error.message));
       console.log(error.message);

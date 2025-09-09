@@ -20,7 +20,6 @@ export default function Login() {
   const { _login, error: _error, isPending } = useLogin();
   const { resetPassword } = useResetPassword();
     const {error: errorGoogle, googleProvider, isPending:isPendingGoogle} = useGoogle()
-   console.log(errorGoogle);
 
   useEffect(() => {
     if (user?.email && user?.password) {

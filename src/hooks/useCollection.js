@@ -1,28 +1,49 @@
-import { useEffect, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { useEffect, useRef, useState } from "react";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { auth, db } from "../firebase/config";
 
-export const useCollection = (collectionName) => {
+export const useCollection = (collectionName, ordered, _where) => {
   const [data, setData] = useState(null);
+  const whereData = useRef(_where);
+
   
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, collectionName),
-      (snapShot) => {
-          const data = [];
+    let ref = collection(db, collectionName);
 
-        snapShot.forEach((item) => {
-          data.push({
-            uid: item.id,
-            ...item.data(),
-          });
+    let q = ref;
+
+    if (whereData?.current && ordered) {
+      q = query(ref, where(...whereData.current), orderBy("timestamp", "desc"));
+    } else if (whereData?.current) {
+      
+      q = query(ref, where("uid", "==", auth.currentUser.uid));
+    } else if (ordered) {
+      q = query(ref, orderBy("timestamp", "desc"));
+    } 
+
+    const unsubscribe = onSnapshot(q, (snapShot) => {
+      const data = [];
+      snapShot.forEach((doc) => {
+        data.push({
+          uid: doc.id,
+          ...doc.data(),
         });
-        setData(data);
-      }
-    );
+      });
+      setData(data);
+    });
 
+
+
+    
+    
     return () => unsubscribe();
-  }, [collectionName]);
+  }, [collectionName, ordered, _where]);
 
   return { data };
 };

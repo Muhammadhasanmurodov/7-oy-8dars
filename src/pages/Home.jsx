@@ -7,8 +7,10 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const { _logout, error, isPending } = useLogout();
   const { user } = useSelector((store) => store.userList);
-  const { data: users } = useCollection("users");
-  const { data: tasks } = useCollection("tasks");
+  const { data: tasks } = useCollection("tasks", true);
+
+  const { data: users } = useCollection("users", false);
+
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-gray-100">
@@ -45,8 +47,15 @@ export default function Home() {
         </div>
 
         <Link
+          to="/profile"
+          className="mt-4 w-full bg-slate-700 text-white py-2.5 rounded-xl font-medium shadow hover:bg-slate-600 text-center transition-all"
+        >
+           Profile
+        </Link>
+
+        <Link
           to="/createTask"
-          className="mt-6 w-full bg-green-600 text-white py-2.5 rounded-xl font-medium shadow hover:bg-green-700 text-center transition-all"
+          className="mt-4 w-full bg-green-600 text-white py-2.5 rounded-xl font-medium shadow hover:bg-green-700 text-center transition-all"
         >
           + Create Task
         </Link>
