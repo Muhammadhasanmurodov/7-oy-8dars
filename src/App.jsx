@@ -19,6 +19,7 @@ import { isAuthReady, login } from "./app/features/userSlice";
 import CreateTask from "./pages/CreateTask";
 import Task from "./pages/Task";
 import Profile from "./pages/Profile";
+import UserInfo from "./pages/UserInfo";
 
 export default function App() {
   const { user, authReady } = useSelector((store) => store.userList);
@@ -47,6 +48,10 @@ export default function App() {
         {
           path: `/task/:id`,
           element: <Task />,
+        },
+        {
+          path: `/userInfo/:id`,
+          element: <UserInfo/>,
         },
       ],
     },

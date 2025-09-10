@@ -12,20 +12,17 @@ export const useCollection = (collectionName, ordered, _where) => {
   const [data, setData] = useState(null);
   const whereData = useRef(_where);
 
-  
   useEffect(() => {
     let ref = collection(db, collectionName);
-
     let q = ref;
 
     if (whereData?.current && ordered) {
       q = query(ref, where(...whereData.current), orderBy("timestamp", "desc"));
     } else if (whereData?.current) {
-      
-      q = query(ref, where("uid", "==", auth.currentUser.uid));
+      q = query(ref, where(...whereData.current));
     } else if (ordered) {
       q = query(ref, orderBy("timestamp", "desc"));
-    } 
+    }
 
     const unsubscribe = onSnapshot(q, (snapShot) => {
       const data = [];
@@ -38,10 +35,6 @@ export const useCollection = (collectionName, ordered, _where) => {
       setData(data);
     });
 
-
-
-    
-    
     return () => unsubscribe();
   }, [collectionName, ordered, _where]);
 

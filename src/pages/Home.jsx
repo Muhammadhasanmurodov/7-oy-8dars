@@ -71,8 +71,9 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {users &&
               users.map((u) => (
+                <Link key={u.uid} to={`/userInfo/${u.uid}`}>
                 <div
-                  key={u.uid}
+                  
                   className="p-4 bg-slate-800 border border-slate-700 rounded-2xl shadow hover:shadow-lg transition"
                 >
                   <div className="flex items-center gap-3">
@@ -95,6 +96,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                </Link>
               ))}
           </div>
         </section>
